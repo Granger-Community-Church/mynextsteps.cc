@@ -1,0 +1,205 @@
+/* Styles for the MinistryPlatform Custom Form widget on mynextsteps.cc.
+   The widget renders in a shadow root and links this file via its customcss
+   attribute, after MP's default mppw-widgetstyles.css. Page styles in index.html
+   cannot reach inside, so everything the form needs lives here. The look copies
+   the original placeholder form; colors are the page's Granger tokens only. */
+
+:host {
+  --navy: #092c4c;
+  --border: #9e9d9e;
+  --text-muted: #3d3d3d;
+  --radius: 8px;
+  --font-display: "Gotham", "Montserrat", system-ui, sans-serif;
+  --font-body: "Poppins", system-ui, sans-serif;
+
+  /* Re-point MP's own variables so states it styles itself stay on palette. */
+  --primary: var(--navy);
+  --form-field-border: var(--border);
+  --form-field-border--active: var(--navy);
+  --form-field-borderradius: var(--radius);
+  --form-field-bgcolor: #fff;
+  --form-field-bgcolor--active: #fff;
+  --form-field-color: var(--navy);
+  --form-valid: var(--navy);
+  --form-btn-primary-bgcolor: var(--navy);
+  --root-text-color: var(--navy);
+}
+
+/* MP sets Helvetica on every element with a * rule; put the page fonts back. */
+* { font-family: var(--font-body); }
+
+.mppw-component-container {
+  max-width: none;
+  color: var(--navy);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* The page card already has its own heading ("Count me in"), so hide MP's. */
+#customFormTitle,
+#customFormDescription:empty,
+#contactDetailsDiv h3 { display: none; }
+
+/* ── Layout: two columns on wide cards, one on phones (matches the page's 900px break) ── */
+.mppw-row { flex-wrap: nowrap; gap: 18px; }
+.mppw-col { flex: 1 1 0; min-width: 0; margin: 0; }
+@media (max-width: 900px) {
+  .mppw-row { flex-direction: column; gap: 0; }
+}
+
+.mppw-form-field,
+.mppw-form-field-alt { margin: 0 0 18px; }
+.mpp-mt-10 { margin-top: 0; }
+
+/* ── Standard fields (contact block): label sits after the input in the DOM ── */
+.mppw-form-field:has(> .mppw-form-field__control):not(.mppw-form-field__static-container) {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 6px;
+}
+
+.mppw-form-field__label,
+.mppw-form-field--is-valid .mppw-form-field__label,
+.mppw-form-field__static-container .mppw-form-field__label,
+.mppw-form-field__control:focus + .mppw-form-field__label,
+.mppw-form-field__control:not([value=""]) + .mppw-form-field__label {
+  position: static;
+  width: auto;
+  padding: 0;
+  background: transparent;
+  color: var(--navy) !important;
+  font-size: 15px;
+  font-weight: 500;
+  transform: none;
+  transition: none;
+  pointer-events: auto;
+}
+
+.mppw-form-field__control,
+.mppw-form-field__control:focus,
+.mppw-form-field--is-valid .mppw-form-field__control,
+.mppw-form-field--is-invalid .mppw-form-field__control,
+select.mppw-form-field__control {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #fff;
+  box-shadow: none;
+  color: var(--navy);
+  font: 400 16px/1.5 var(--font-body);
+}
+
+.mppw-form-field__control:focus-visible,
+.mppw-form-field_alt-control:focus-visible {
+  outline: 3px solid var(--navy);
+  outline-offset: 2px;
+}
+
+/* ── "Alt" fields (custom form questions: ZIP, hopes): label comes first ── */
+.mppw-form-field-alt {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+}
+.mppw-form-field__alt-label {
+  margin: 0;
+  padding: 0;
+  color: var(--navy);
+  font-size: 15px;
+  font-weight: 500;
+}
+label .mppw-form-field__alt-label-container .mppw-form-field__alt-label-content { max-width: none; }
+label .mppw-form-field__alt-label-container .mppw-form-field__alt-label-required { position: static; margin-left: 2px; }
+
+.mppw-form-field_alt-control {
+  margin: 0;
+  padding: 12px 14px !important;
+  border: 1px solid var(--border);
+}
+.mppw-form-field__control__textarea { min-height: 110px; resize: vertical; }
+.mppw-textarea-counter { color: var(--text-muted); font-size: 13px; }
+.mppw-textarea-counter:empty { display: none; }
+
+/* ZIP sits alone in a half-width column, like the placeholder. */
+@media (min-width: 901px) {
+  .mppw-form-field-alt:has(input[type="text"]) { width: calc(50% - 9px); }
+}
+
+/* ── "I'd like to be invited to" heading and checkboxes ── */
+#formFields h3 {
+  margin: 0 0 4px;
+  color: var(--navy);
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 500;
+}
+#formFields p:empty { display: none; }
+
+.mpp-household--checkbox-container { margin: 0; }
+.mppw-form-field__control.mpp-household--checkbox { margin: 0; padding: 0 !important; border: 0; background: transparent !important; }
+#formFields > div:has(.mpp-household--checkbox-container) + div:not(:has(.mpp-household--checkbox-container)) { margin-top: 14px; }
+.mpp-household--checkbox > label {
+  display: flex;
+  align-items: center;
+  min-height: 36px;
+  margin: 0;
+  padding-left: 30px;
+}
+.mpp-household--checkbox .mppw-form-field_instruction_font {
+  color: var(--navy);
+  font-size: 16px;
+  cursor: pointer;
+}
+.mppw-form-field__control > label > .mppw-checkbox {
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  box-sizing: border-box;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: #fff;
+  transform: translateY(-50%);
+}
+.mppw-form-field__control > label:hover input ~ .mppw-checkbox { background: #fff; border-color: var(--navy); }
+.mppw-form-field__control > label input:checked ~ .mppw-checkbox { background: var(--navy); border-color: var(--navy); }
+.mppw-form-field__control > label > .mppw-checkbox:after { left: 6px; top: 2px; }
+.mppw-form-field__control > label input:focus-visible ~ .mppw-checkbox { outline: 3px solid var(--navy); outline-offset: 2px; }
+
+/* The block after the checkboxes is the communication-consent note. */
+.mppw-form-field:not(.mppw-form-field__static-container) > div { color: var(--text-muted); font-size: 13px !important; line-height: 1.5; }
+
+/* ── Validation messages (MP positions these for floating labels) ── */
+.mppw-form-field--is-invalid { padding-bottom: 0; margin-bottom: 0; }
+.mppw-form-field__message_container { top: 0; }
+.mppw-col:has(.mppw-form-field--is-invalid) .mppw-form-field__message_container { margin-bottom: 18px; }
+.mppw-form-field__message--is-valid,
+.mppw-form-field__message--is-invalid,
+.mppw-error-message {
+  position: static;
+  margin: 6px 0 0;
+  text-align: left;
+  font-size: 14px;
+}
+
+/* ── Submit ── */
+.mppw-btn.primary,
+#submitButton {
+  display: block;
+  width: 100%;
+  margin: 6px 0 0;
+  padding: 18px;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--navy);
+  box-shadow: none;
+  color: #fff;
+  font: 700 18px/1.2 var(--font-display);
+  cursor: pointer;
+}
+#submitButton:active { background: #536b82; }
+#submitButton:focus-visible { outline: 3px solid var(--navy); outline-offset: 2px; }

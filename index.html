@@ -138,28 +138,25 @@
       <h3 id="form-heading">Count me in</h3>
       <p class="hint">Tell us how to reach you.</p>
 
-      <!-- =====================================================================
-           PLACEHOLDER FORM. It does not submit and collects nothing.
-           Replace everything from here to "END PLACEHOLDER FORM" with the
-           real form embed code when it is ready.
-           ===================================================================== -->
-      <form class="form-grid" onsubmit="return false;" novalidate>
-        <label class="field">First name<input type="text" name="first_name" autocomplete="given-name"></label>
-        <label class="field">Last name<input type="text" name="last_name" autocomplete="family-name"></label>
-        <label class="field">Phone<input type="tel" name="phone" autocomplete="tel"></label>
-        <label class="field">Email<input type="email" name="email" autocomplete="email"></label>
-        <label class="field">ZIP code<input type="text" name="zip" inputmode="numeric" autocomplete="postal-code"></label>
-        <div class="spacer" aria-hidden="true"></div>
-        <fieldset class="full">
-          <legend>I'd like to be invited to</legend>
-          <label class="choice"><input type="checkbox" name="interest" value="surveys">Short surveys</label>
-          <label class="choice"><input type="checkbox" name="interest" value="gatherings">Neighborhood gatherings</label>
-          <label class="choice"><input type="checkbox" name="interest" value="focus-groups">Focus groups</label>
-        </fieldset>
-        <label class="field full">What are your hopes and dreams for our community? (optional)<textarea name="hopes"></textarea></label>
-        <button class="submit" type="button">Join the conversation</button>
-      </form>
-      <!-- ========================= END PLACEHOLDER FORM ======================== -->
+      <!-- MinistryPlatform Custom Form widget. It renders in a shadow root, so its
+           styles live in mp-form.css (loaded via customcss), not in this page.
+           The script id must stay "MPWidgets"; the loader reads it to find the API. -->
+      <script id="MPWidgets" src="https://my.grangerchurch.com/widgets/dist/MPWidgets.js"></script>
+      <mpp-custom-form formguid="0ded7757-68e7-414f-b9f5-e50b395996b5" customcss="mp-form.css"></mpp-custom-form>
+      <script>
+        // MP can't rename the submit button per form, so relabel it here. The widget
+        // can re-render, so keep watching; only the default "Submit" text is replaced.
+        customElements.whenDefined("mpp-custom-form").then(function () {
+          var root = document.querySelector("mpp-custom-form").shadowRoot;
+          if (!root) return;
+          var relabel = function () {
+            var button = root.getElementById("submitButton");
+            if (button && button.value === "Submit") button.value = "Join the conversation";
+          };
+          new MutationObserver(relabel).observe(root, { childList: true, subtree: true });
+          relabel();
+        });
+      </script>
     </section>
   </div>
 </main>
