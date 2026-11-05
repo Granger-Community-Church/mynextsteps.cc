@@ -12,8 +12,10 @@ Keep to the Granger brand tokens already in the file (navy #092c4c, green #abd42
 
 ## Form
 
-The sign-up form is a MinistryPlatform Custom Form widget (`<mpp-custom-form>`, form GUID `0ded7757-68e7-414f-b9f5-e50b395996b5`), loaded by `MPWidgets.js` from my.grangerchurch.com. Fields, labels and the button text are edited in MP, not here.
+The sign-up form is a MinistryPlatform Subscribe to Publication widget (`<mpp-subscribe-to-publication>`, publication 23, "Next Steps Community Center Neighbors"), loaded by `MPWidgets.js` from my.grangerchurch.com. It asks for first name, last name, email and mobile phone; those fields are fixed by MP.
 
-The widget renders inside a shadow root, so page CSS cannot style it. Its styling lives in `mp-form.css`, which the widget loads through its `customcss` attribute.
+Signing up is double opt-in. MP sends the email template set in `verificationemailtemplateid`, and that email's `[mpp_verify_email_url]` link brings the person back to `returnurl` (https://mynextsteps.cc/) with `?mpp-verify-id=...`. The widget on the page then completes the subscription and shows a confirmation.
+
+The widget renders inside a shadow root, so page CSS cannot style it. Its styling lives in `mp-form.css`, which the widget loads through its `customcss` attribute. An inline script after the widget relabels the button to "Join the conversation".
 
 MP only answers pages whose origin is on its Permitted URLs list. To preview locally, serve the folder on a permitted port, for example `python3 -m http.server 3010` and open http://localhost:3010 (http://127.0.0.1:5500 is also permitted).

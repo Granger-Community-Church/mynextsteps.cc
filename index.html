@@ -138,20 +138,25 @@
       <h3 id="form-heading">Count me in</h3>
       <p class="hint">Tell us how to reach you.</p>
 
-      <!-- MinistryPlatform Custom Form widget. It renders in a shadow root, so its
-           styles live in mp-form.css (loaded via customcss), not in this page.
-           The script id must stay "MPWidgets"; the loader reads it to find the API. -->
+      <!-- MinistryPlatform Subscribe to Publication widget (publication 23, Next Steps
+           Community Center Neighbors). Signing up emails a verification link; the
+           subscription completes when that link brings the person back to returnurl
+           with ?mpp-verify-id=..., and the widget on this page confirms it.
+           It renders in a shadow root, so its styles live in mp-form.css (loaded via
+           customcss), not in this page. The script id must stay "MPWidgets"; the
+           loader reads it to find the API. -->
       <script id="MPWidgets" src="https://my.grangerchurch.com/widgets/dist/MPWidgets.js"></script>
-      <mpp-custom-form formguid="0ded7757-68e7-414f-b9f5-e50b395996b5" customcss="mp-form.css"></mpp-custom-form>
+      <mpp-subscribe-to-publication publicationid="23" returnurl="https://mynextsteps.cc/" verificationemailtemplateid="167276" customcss="mp-form.css"></mpp-subscribe-to-publication>
       <script>
-        // MP can't rename the submit button per form, so relabel it here. The widget
-        // can re-render, so keep watching; only the default "Submit" text is replaced.
-        customElements.whenDefined("mpp-custom-form").then(function () {
-          var root = document.querySelector("mpp-custom-form").shadowRoot;
+        // MP can't rename the button per widget, so relabel it here. The widget
+        // can re-render, so keep watching.
+        customElements.whenDefined("mpp-subscribe-to-publication").then(function () {
+          var root = document.querySelector("mpp-subscribe-to-publication").shadowRoot;
           if (!root) return;
+          var label = "Join the conversation";
           var relabel = function () {
-            var button = root.getElementById("submitButton");
-            if (button && button.value === "Submit") button.value = "Join the conversation";
+            var button = root.getElementById("verificationButton");
+            if (button && button.value !== label) button.value = label;
           };
           new MutationObserver(relabel).observe(root, { childList: true, subtree: true });
           relabel();

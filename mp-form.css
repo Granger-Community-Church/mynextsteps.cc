@@ -1,4 +1,4 @@
-/* Styles for the MinistryPlatform Custom Form widget on mynextsteps.cc.
+/* Styles for the MinistryPlatform Subscribe to Publication widget on mynextsteps.cc.
    The widget renders in a shadow root and links this file via its customcss
    attribute, after MP's default mppw-widgetstyles.css. Page styles in index.html
    cannot reach inside, so everything the form needs lives here. The look copies
@@ -36,10 +36,9 @@
   line-height: 1.5;
 }
 
-/* The page card already has its own heading ("Count me in"), so hide MP's. */
-#customFormTitle,
-#customFormDescription:empty,
-#contactDetailsDiv h3 { display: none; }
+/* The page card already has its own heading ("Count me in"), so hide MP's
+   "Subscribe to [Publication_Title]" heading and the publication description. */
+.mpp-innerpage { display: none; }
 
 /* ── Layout: two columns on wide cards, one on phones (matches the page's 900px break) ── */
 .mppw-row { flex-wrap: nowrap; gap: 18px; }
@@ -188,7 +187,7 @@ label .mppw-form-field__alt-label-container .mppw-form-field__alt-label-required
 
 /* ── Submit ── */
 .mppw-btn.primary,
-#submitButton {
+#verificationButton {
   display: block;
   width: 100%;
   margin: 6px 0 0;
@@ -201,5 +200,7 @@ label .mppw-form-field__alt-label-container .mppw-form-field__alt-label-required
   font: 700 18px/1.2 var(--font-display);
   cursor: pointer;
 }
-#submitButton:active { background: #536b82; }
-#submitButton:focus-visible { outline: 3px solid var(--navy); outline-offset: 2px; }
+#verificationButton:active { background: #536b82; }
+#verificationButton:disabled { opacity: 0.6; cursor: wait; }
+#verificationButton:focus-visible { outline: 3px solid var(--navy); outline-offset: 2px; }
+.mppw-centered { text-align: left; }
